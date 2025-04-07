@@ -1,0 +1,49 @@
+body {
+    margin: 0;
+    font-family: 'Comic Sans MS', sans-serif;
+    background-color: #f0ffd8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .container {
+    text-align: center;
+    padding-top: 20px;
+  }
+  
+  .input-box {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #garden {
+    margin-top: 30px;
+  }
+  
+  input[type="text"] {
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    width: 300px;
+    font-size: 16px;
+  }
+  
+  button {
+    padding: 10px 15px;
+    border-radius: 50%;
+    margin-left: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #b8f5a0;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #a2e08f;
+  }
+  
