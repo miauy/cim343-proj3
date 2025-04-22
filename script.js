@@ -1,4 +1,3 @@
-// === script.js ===
 let mood = "neutral";
 let flowers = [];
 let butterflies = [];
