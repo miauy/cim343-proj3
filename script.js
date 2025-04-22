@@ -114,6 +114,7 @@ function analyzeMood() {
       "X-RapidAPI-Host": "twinword-sentiment-analysis.p.rapidapi.com"
     },
     body: new URLSearchParams({ text })
+    
   })
     .then((res) => res.json())
     .then((data) => {
@@ -141,4 +142,6 @@ function analyzeMood() {
       console.error("API error:", err);
       mood = "neutral";
     });
+
+    document.getElementById("moodInput").value = "";
 }
