@@ -1,10 +1,12 @@
+// === script.js ===
 let mood = "neutral";
 let flowers = [];
 let butterflies = [];
 let clouds = [];
+let entryLog = JSON.parse(localStorage.getItem("moodEntries")) || [];
 
 function setup() {
-  let canvas = createCanvas(600, 300);
+  let canvas = createCanvas(900, 500);
   canvas.parent("garden");
   loop();
 
@@ -12,19 +14,19 @@ function setup() {
     flowers.push({ x: i + 30, y: height - 50, size: 20 });
   }
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 8; i++) {
     butterflies.push({
       x: random(width),
       y: random(height / 2),
-      speed: random(0.5, 1),
+      speed: random(0.5, 1.2),
       dir: random(1) > 0.5 ? 1 : -1
     });
   }
 
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 5; i++) {
     clouds.push({
       x: random(width),
-      y: random(50, 100),
+      y: random(30, 100),
       speed: random(0.3, 1)
     });
   }
@@ -38,9 +40,16 @@ function draw() {
     drawSun();
     animateButterflies();
     animateFlowers("grow", "#ff69b4");
+  } else if (mood === "very_positive") {
+    drawSun();
+    animateButterflies();
+    animateFlowers("grow", "#ffcc00");
   } else if (mood === "negative") {
     drawClouds();
     animateFlowers("wilt", "#5a5a5a");
+  } else if (mood === "very_negative") {
+    drawClouds();
+    animateFlowers("wilt", "#3a3a3a");
   } else {
     drawClouds();
     animateFlowers("idle", "#cccccc");
@@ -50,9 +59,9 @@ function draw() {
 function animateFlowers(state, color) {
   for (let flower of flowers) {
     if (state === "grow") {
-      flower.size = min(flower.size + 0.5, 40);
+      flower.size = min(flower.size + 0.5, 50);
     } else if (state === "wilt") {
-      flower.size = max(flower.size - 0.5, 10);
+      flower.size = max(flower.size - 0.5, 8);
     } else {
       flower.size = 20;
     }
@@ -97,8 +106,6 @@ function analyzeMood() {
   const text = document.getElementById("moodInput").value;
   if (!text) return;
 
-  console.log("User typed:", text);
-
   fetch("https://twinword-sentiment-analysis.p.rapidapi.com/analyze/", {
     method: "POST",
     headers: {
@@ -110,18 +117,28 @@ function analyzeMood() {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log("API returned:", data);
-      if (data.type === "positive") {
+      let score = data.score;
+      if (score >= 0.6) {
+        mood = "very_positive";
+      } else if (score >= 0.2) {
         mood = "positive";
-      } else if (data.type === "negative") {
+      } else if (score <= -0.6) {
+        mood = "very_negative";
+      } else if (score <= -0.2) {
         mood = "negative";
       } else {
         mood = "neutral";
       }
+
+      entryLog.push({
+        text,
+        mood,
+        timestamp: new Date().toLocaleString()
+      });
+      localStorage.setItem("moodEntries", JSON.stringify(entryLog));
     })
     .catch((err) => {
       console.error("API error:", err);
       mood = "neutral";
     });
 }
-

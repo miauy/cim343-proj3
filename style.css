@@ -47,3 +47,18 @@ body {
     background-color: #a2e08f;
   }
   
+  .history-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #ffe69a;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #444;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .history-button:hover {
+    background-color: #ffdb6e;
+  }
