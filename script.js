@@ -3,7 +3,7 @@ let mood = "neutral";
 let flowers = [];
 let butterflies = [];
 let clouds = [];
-let entryLog = JSON.parse(localStorage.getItem("moodEntries")) || [];
+let entryLog = JSON.parse(localStorage.getItem("moodEntries")) || []; //storing the data locally
 
 function setup() {
   let canvas = createCanvas(900, 500);
